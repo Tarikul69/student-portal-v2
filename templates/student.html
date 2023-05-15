@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Instruction</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="author" content="colorlib.com">
+		<!-- STYLE CSS -->
+		<link rel="stylesheet" href="../static/css/style.css">
+	</head>
+	<body>
+		<div class="wrapper">
+            <form action="" id="wizard">
+				<!-- SECTION 1 -->
+
+				<h2></h2>
+                <section>
+
+
+				<div class="inner">
+						<div class="image-holder">
+							<img src="../static/images/0.jpeg" alt="">
+						</div>
+						<div class="form-content" >
+							<div class="form-header">
+								<h3>Personal Details</h3>
+							</div>
+							<div class="form-row">
+								<div class="form-holder">
+									<label for="name">Name</label>
+									<input type="text" placeholder="Name"  value={{registeredUser.student_name}} class="form-control" disabled>
+								</div>
+								<div class="form-holder">
+									<label for="name">Registered Email</label>
+									<input type="text" placeholder="Email" value={{registeredUser.student_email}} class="form-control" disabled>
+								</div>
+							</div>
+							<div class="form-row">
+
+								<div class="form-holder">
+									<label for="inputRoll">University</label>
+									<input type="text" placeholder="University" value={{college_details.college_university}} class="form-control" disabled>
+								</div>
+								<div class="form-holder">
+									<label for="inputRoll">Session</label>
+									<input type="text" placeholder="Register no." value={{registeredUser.session}}    class="form-control" disabled>
+								</div>
+								<div class="form-holder col-md-4">
+									<label for="Stream">College Code</label>
+									<input type="text" placeholder="Country" value={{college_details.college_code}} class="form-control" disabled>
+								</div>
+								
+							</div>
+							<div class="form-group form-row">
+							
+                                <div class="form-holder col-md-4">
+									<label for="inputRoll">City</label>
+									<input type="text" placeholder="City" value={{registeredUser.student_address}} class="form-control" disabled>
+								</div>
+									
+								
+								<div class="form-holder">
+									<label for="Stream">State</label>
+									<input type="text" placeholder="State" value={{registeredUser.state}} class="form-control" disabled>
+									</div>
+								<div class="form-holder col-md-4">
+									<label for="Stream">Country</label>
+									<input type="text" placeholder="State" value={{registeredUser.country}} class="form-control" disabled>
+								</div>
+								
+							  </div>
+                   
+				</section>
+				<!-- section-2 -->
+                <!-- <h2></h2>
+                <section>
+                    <div class="inner">
+						<div class="image-holder">
+							<img src="images/0.jpeg" alt="">
+						</div>
+						<div class="form-content" >
+							<div class="form-header">
+								<h3>Registration</h3>
+							</div>
+							<p>Please fill with your details</p>
+							<div class="form-row">
+								<div class="form-holder">
+									<input type="text" placeholder="First Name" class="form-control">
+								</div>
+								<div class="form-holder">
+									<input type="text" placeholder="Last Name" class="form-control">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-holder">
+									<input type="text" placeholder="Your Email" class="form-control">
+								</div>
+								<div class="form-holder">
+									<input type="text" placeholder="Phone Number" class="form-control">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-holder">
+									<input type="text" placeholder="Age" class="form-control">
+								</div>
+								<div class="form-holder" style="align-self: flex-end; transform: translateY(4px);">
+									<div class="checkbox-tick">
+										<label class="male">
+											<input type="radio" name="gender" value="male" checked> Male<br>
+											<span class="checkmark"></span>
+										</label>
+										<label class="female">
+											<input type="radio" name="gender" value="female"> Female<br>
+											<span class="checkmark"></span>
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="checkbox-circle">
+								<label>
+									<input type="checkbox" checked> I hereby accept the terms and conditions asked by company
+									<span class="checkmark"></span>
+								</label>
+							</div>
+						</div>
+					</div>
+                </section> -->
+
+				<!-- SECTION 2 -->
+                <h2></h2>
+                <section>
+                    <div class="inner">
+						<div class="image-holder">
+							<img src="../static/images/0.jpeg" alt="">
+						</div>
+						<div class="form-content">
+							<div class="form-header">
+								<h3>Exam Details</h3>
+							</div>
+
+							<div class="form-row">
+								<div class="form-holder w-100">
+									<label for="inputRoll">College Name</label>
+									<input type="text" placeholder="College ID" value={{college_details.college_university}} class="form-control" disabled>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-holder">
+									<label for="inputRoll">Subject Name</label>
+									<input type="text" placeholder="Subject Name" value={{exam_name}} class="form-control" disabled>
+								</div>
+								<div class="form-holder">
+									<label for="inputRoll">Duration</label>
+									<input type="text" placeholder="Subject Code" value={{duration_exam}} class="form-control" disabled>
+								</div>
+							</div>
+							<div class="timeSlot">
+								<label for="Test Slot">Starting Time</label>
+								<input type="text" placeholder="Starting Time" value={{start}} class="form-control" disabled>
+							</div>
+							<div class="timeSlot">
+								<label for="Test Slot">Ending Time</label>
+								<input type="text" placeholder="Ending Time" value={{end1}} class="form-control" disabled>
+							</div>
+
+						</div>
+					</div>
+                </section>
+
+				<!-- SECTION 3 -->
+				<h2></h2>
+
+                <section>
+
+ <div class="inner">
+						<div class="image-holder">
+							<img src="../static/images/hello.svg" alt="">
+						</div>
+						<div class="form-content">
+							<div class="form-header">
+								<h3>INSTRUCTIONS</h3>
+							</div>
+							<p>RULES AND REGULATIONS</p>
+							<div class="form-row">
+								<div class="instructions">
+									<ul>
+										<li>{{ins|safe}}</li>
+									</ul>
+								  </div>
+							</div>
+							
+								<label>
+									<input type="checkbox" onClick="return readOnlyCheckBox()" checked>  Please accept <a href="#">terms and conditions ?</a>
+									<span class="checkmark"></span>
+								</label>
+				
+							
+							<br><br><br><br>
+							 </form>
+								<div class="form-holder" style="align-self: flex-end; transform: translateY(4px);">
+									<div class="checkbox-tick">
+									
+									<form action="/test" method="POST">
+									
+										<button type="submit" class="examLink" id="examBtn" disabled>Wait for exam</button>
+
+									</form>
+						</div>
+					</div>
+
+
+
+                    
+							  
+										
+									
+									
+
+									
+
+							<!-- <div class="form-row">
+								<div class="select">
+									<div class="form-holder">
+										<div class="select-control">Country</div>
+										<i class="zmdi zmdi-caret-down"></i>
+									</div>
+									<ul class="dropdown">
+										<li rel="United States">United States</li>
+										<li rel="United Kingdom">United Kingdom</li>
+										<li rel="Viet Nam">Viet Nam</li>
+									</ul>
+								</div>
+								<div class="form-holder"></div>
+							</div> -->
+
+									</div>
+								</div>
+							</div>
+							</div>
+						</div>
+					</div>
+                </section>
+
+           
+		</div>
+		<SCRIPT>
+function readOnlyCheckBox() {
+   return false;
+}
+</SCRIPT>
+
+		<!-- JQUERY -->
+		<script src="../static/js/jquery-3.3.1.min.js"></script>
+
+		<!-- JQUERY STEP -->
+		<script src="../static/js/jquery.steps.js"></script>
+		<script src="../static/js/main.js"></script>
+		<script>
+			function chkTime(){
+				var time = '{{new}}';
+				var end = '{{old}}';
+				var today = new Date();
+				var now = today.getHours()+":"+today.getMinutes();
+				console.log(now>=time);
+				console.log(end<=now);
+				if(now>=time==true  && end<=now==true){
+					var btn = document.getElementById('examBtn');
+					btn.removeAttribute('disabled');
+					btn.innerHTML = 'Start Exam';
+				} 
+			}
+			
+			setInterval(chkTime, 1000);
+		</script>
+		<script type="text/javascript">
+function disableF5(e) { if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault(); };
+
+$(document).ready(function(){
+     $(document).on("keydown", disableF5);
+});
+</script>
+
+
+
+		<!-- Template created and distributed by Colorlib -->
+</body>
+</html>

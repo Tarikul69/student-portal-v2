@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<link rel="stylesheet" href="../static/css/style6.css">
+  <title>Personal Details</title> 
+
+<body>
+<form id="regForm" action="/test" method="POST">
+  <!-- One "tab" for each step in the form: -->
+  <div class="tab">
+      <!--logo class start here-->
+      <div class="logo"><img alt="Qries" src="../static/images/0.jpeg" width="60" height="60">
+     <h3 class="title">Personal Details</h3>
+    </div>
+    <!--logo class end here-->
+    <!--progress bar class start here-->
+    <div class="count">
+      <div id="one" class="active"></div>
+      <div id="two"></div>
+      <div id="three"></div>
+    </div>
+    <!--progress bar class end here-->
+    <div class="container">
+      <div class="first">
+        <div class="namebox">
+          <span class="inputbox"> Name</span>
+          <br>
+          <input type="text" oninput="this.className = ''" name="fname"  value="{{registeredUser.student_name}}" disabled>
+        </div>
+        <div class="emailbox">
+          <span class="inputbox" id="email"> Email</span>
+          <br>
+          <input  type="text" oninput="this.className = ''" name="email" value="{{registeredUser.student_email}}" disabled>
+        </div>
+      </div> 
+
+      <div class="second">
+
+        {% if 'College' in type %}        
+        <div class="unibox">
+          <span class="inputbox">University </span><br>
+          <input  type="text" oninput="this.className = ''" name="university" value="{{college_details.college_university}}" disabled>
+        </div>
+        {% elif 'School' in type %}
+        <div class="unibox">
+          <span class="inputbox">School </span><br>
+          <input  type="text" oninput="this.className = ''" name="university" value="{{college_details.college_university}}" disabled>
+        </div>
+        {% endif %}
+        
+        {% if 'College' in type %}
+        <div class="sessionbox">
+          <span class="inputbox">Branch </span><br>
+          <input  type="text" oninput="this.className = ''" name="session" value="{{branch_name}}"  disabled>
+        </div>
+        {% elif 'School' in type %}
+        <div class="sessionbox">
+          <span class="inputbox">Class </span><br>
+          <input  type="text" oninput="this.className = ''" name="session" value="{{branch_name}}"  disabled>
+        </div>
+        {% endif %}
+
+        {% if 'College' in type %}
+        <div class="collegebox">
+          <span class="inputbox">Semester </span><br>
+          <input  type="text"  oninput="this.className = ''" name="College" value="{{semester_name}}" disabled>
+        </div>
+        {% elif 'School' in type %}
+        <div class="collegebox">
+          <span class="inputbox">Section </span><br>
+          <input  type="text"  oninput="this.className = ''" name="College" value="{{semester_name}}" disabled>
+        </div>
+        {% endif %}
+
+
+      </div>
+      
+      <div class="third">
+        <div class="citybox">
+          <span class="inputbox">City</span><br>
+          <input  type="text" oninput="this.className = ''" name="city"  value="{{registeredUser.student_address}}" disabled>
+        </div>
+        <div class="statebox">
+          <span class="inputbox">State</span><br>
+          <input  type="text" oninput="this.className = ''" name="state" value="{{registeredUser.state}}" disabled>
+        </div>
+        <div class="countrybox">
+          <span class="inputbox">Country</span><br>
+          <input type="text"  oninput="this.className = ''" name="country" value="{{registeredUser.country}}" disabled>
+        </div>
+      </div>
+      
+    </div>  
+  </div>
+<!--first tab end here---->
+<!--second tab start here-->
+<!--logo class start here-->
+  <div class="tab">
+      <div class="logo"><img alt="Qries" src="../static/images/0.jpeg" width="60" height="60">
+    <h1 class="title">Exam Details</h1>
+  </div>
+  <!--logo class end here-->
+  <!--progress bar class start here-->
+
+
+  <div class="count">
+    <div id="one" class="active"></div>
+    <div id="two" class="active"></div>
+    <div id="three"></div>
+  </div>
+  {% if 'College' in type %}
+  <!--progress bar class end here-->
+  <span class="inputbox"> Exam Name</span>
+    <p><input   type="text" oninput="this.className = ''" name="college" value="{{exam_name}}"" disabled></p>
+    {% elif 'School' in type %}
+    <span class="inputbox"> Exam Name</span>
+    <p><input   type="text" oninput="this.className = ''" name="college" value="{{exam_name}}"" disabled></p>
+    {% endif %}
+
+    {% if 'College' in type %}
+    <div class="second">
+      <div class="subjectbox">
+        <span class="inputbox" > Subject Name</span><br>
+        <input  type="text" oninput="this.className = ''" name="subject" value="{{subject_name}}" disabled>
+      </div>
+      {% elif 'School' in type %}
+      <div class="second">
+        <div class="subjectbox">
+          <span class="inputbox" > Subject Name</span><br>
+          <input  type="text" oninput="this.className = ''" name="subject" value="{{subject_name}}" disabled>
+        </div>
+        {% endif %}
+
+
+      <div class="durationbox">
+        <span class="inputbox">Exam Duration</span><br>
+        <input  type="text" oninput="this.className = ''" name="duration" value="{{duration_exam}} mins" disabled>
+      </div>
+    </div>
+    <div class="third">
+      <div class="startbox">
+        <span class="inputbox"> Start Time</span><br>
+        <input  type="text" oninput="this.className = ''" name="stime" value={{start}} disabled>
+      </div>
+      <div class="endbox">
+        <span class="inputbox"> End Time</span><br>
+        <input  type="text" oninput="this.className = ''" name="etime" value={{end1}} disabled>
+      </div>
+    </div>
+  </div>
+  <!--second tab end here-->
+  <!--third tab start here-->
+  <div class="tab">
+      <!--logo class start here-->
+    <div class="logo"><img alt="Qries" src="../static/images/0.jpeg" width="60" height="60">
+    <h1 class="title">Instructions</h1>
+    </div>
+    <!--logo class end here-->
+    <!--progress bar class start here-->
+  <div class="count">
+    <div id="one" class="active"></div>
+    <div id="two" class="active"></div>
+    <div id="three" class="active"></div>
+  </div>
+  <!--progress bar class end here-->
+  <div class="rules">
+    <h3>Rules and Regulations</h3>
+  </div>
+    <div class="form-row">
+								<div class="instructions">
+									<ul>
+										<li>{{ins|safe}}</li>
+									</ul>
+								  </div>
+							</div>
+    <div>
+        <input type="checkbox" class="checkbox1"  oninput="this.className = ''" checked><span class="termcondition">Accept <a>Terms And Conditions</a></span>
+    </div>
+  </div>
+  <!--third tab end here-->
+  <div style="overflow:auto;">
+    <div style="float:right;">
+      <button type="button" id="prevBtn" onclick="nextPrev(-1)">Back</button>
+    
+      <button type="button" id="nextBtn" onclick="nextPrev(1)" >Next</button>
+ 
+    </div>
+  </div>
+  <!-- Circles which indicates the steps of the form: -->
+  <div style="text-align:center;margin: top 10px;">
+    <span class="step"></span>
+    <span class="step"></span>
+  </div>
+</form>
+
+<script>
+var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form...
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  //... and fix the Previous/Next buttons:
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("nextBtn").innerHTML = "Wait for Exam";
+    document.getElementById('nextBtn').addEventListener('click', submitForm)
+    document.getElementById('nextBtn').setAttribute("disabled",true)
+
+
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+    //document.getElementById("nextBtn").removeEventListner("click",submitForm)
+    let x=document.getElementById("nextBtn")
+    x.removeAttribute('disabled');
+    if (x.removeEventListener) {                   // For all major browsers, except IE 8 and earlier
+    x.removeEventListener("click", submitForm);
+
+    }   else if (x.detachEvent) {                    // For IE 8 and earlier versions
+    x.detachEvent("click", submitForm);
+    }
+    
+  }
+  //... and run a function that will display the correct step indicator:
+  fixStepIndicator(n)
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+  if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form...
+  if (currentTab >= x.length) {
+    // ... the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("tab");
+  y = x[currentTab].getElementsByTagName("input");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+      // and set the current valid status to false
+      valid = false;
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+  }
+  return valid; // return the valid status
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class on the current step:
+  x[n].className += " active";
+}
+
+		function chkTime(){
+       var x = document.getElementsByClassName("tab");
+      if(currentTab===x.length-1)
+      {
+				var time = '{{new}}';
+				var end = '{{old}}';
+				var today = new Date();
+				var now = today.getHours()+":"+today.getMinutes();
+				console.log(now>=time);
+				console.log(end<=now);
+				if(now>=time==true  && end<=now==false){
+					var btn = document.getElementById('nextBtn');
+					btn.removeAttribute('disabled');
+					btn.innerHTML = 'Start  Exam';
+				} 
+			}
+    }
+    function submitForm()
+    {
+      console.log(document.getElementById("regForm"))
+      document.getElementById("regForm").submit() 
+
+    }
+			
+			setInterval(chkTime, 1000);
+</script>
+
+</body>
+</html>

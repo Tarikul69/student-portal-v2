@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proctor Side</title>
+    <script src="https://js.pusher.com/7.0.3/pusher.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <div id="student-vdo-container">
+
+    </div>
+
+    <script>
+        var detail = new URLSearchParams(location.search)
+        
+        var pusher = new Pusher('a60f02f7bde182f427ce', {
+        authEndpoint: '/pusher/auth',
+        cluster: 'ap2',
+        encrypted: true,
+      });
+
+      //Pusher.logToConsole = true
+
+      vdoChannel = {}
+      rtcConnections = {}
+
+      var generalChannel = pusher.subscribe('vdo-channel');
+
+      pusher.bind('new-phpcall-details', (data)=>{
+        console.log(data.email)
+        if (detail.get('procname') === data.procname){
+            if(vdoChannel[data.email]){
+                console.log("Private channel alredy joined by admin")
+                vdoChannel[data.email].trigger("client-admin-ready", data)
+            }else{
+                console.log('private channel join by admin')
+                console.log(data)
+                vdoChannel[data.email] = pusher.subscribe('private-'+data.email)
+                vdoChannel[data.email].bind("pusher:subscription_succeeded", ()=>{
+                    console.log('ready emited')
+                    vdoChannel[data.email].trigger("client-admin-ready", data)
+                })
+            }
+        }
+      })
+
+        pusher.bind('client-set-offer', (data)=>{
+            console.log('Creating answer')
+            createAnswer(data)
+        })
+        pusher.bind('client-stu-ice', (data)=>{
+                    console.log(data.email)
+                    if(rtcConnections[data.email])
+                    {
+                        console.log('set student ice')
+                        let iceCandidate = new RTCIceCandidate(data['candidate'])
+                        rtcConnections[data.email].addIceCandidate(iceCandidate)
+                    }
+                })
+
+        var createAnswer = function(data){
+            var verifiedName = detail.get('procname').replace(/ /g, '')
+            console.log(verifiedName)
+            axios.post('/getcredential', {'verifiedName':verifiedName})
+            .then((response)=>{
+                let iceServersTwo = {
+                    iceServers : [
+                        {
+                            urls : "turn:161.97.79.224:3478",
+                            username: response.data.username,
+                            credential: response.data.credential
+                        }
+                    ]
+                }
+                rtcConnections[data.email] = new RTCPeerConnection(iceServersTwo) 
+                rtcConnections[data.email].ontrack =(eve)=>{
+                    OnTrackFunction(eve, data)
+                }
+                rtcConnections[data.email].onicecandidate = (eve)=>{
+                    OniceCandidateFunction(eve, data)        
+                }
+                rtcConnections[data.email].onconnectionstatechange = (eve)=>{
+                    ConnectionStateChgFun(eve, data)
+                }
+                rtcConnections[data.email].setRemoteDescription(data['offer'])       
+                rtcConnections[data.email].createAnswer().then((answer)=>{
+                    // console.log(answer)
+                    rtcConnections[data.email].setLocalDescription(answer, ()=>{
+                        console.log('it was successfull')
+                    },(eve)=>{
+                        console.log(eve)
+                    })
+                    vdoChannel[data.email].trigger('client-set-ans', {'email':data.email, 'answer':answer})
+                })
+            })
+            .catch((e)=>{
+                console.log(e)
+            })
+        }
+
+        var OniceCandidateFunction = function(eve, data){
+            
+            if(eve.candidate !== null){
+                console.log('Candidate sent')
+                vdoChannel[data.email].trigger('client-admin-ice', {'email':data.email, 'candidate':eve.candidate})
+            }
+        }
+
+        var ConnectionStateChgFun = function(eve, data){
+            console.log(rtcConnections[data.email].connectionState)
+            switch(rtcConnections[data.email].connectionState){
+                case "closed":
+                    //remove the vdo
+                    RemoveVdo(data)
+                    rtcConnections[data.email] = null
+                case "failed":
+                    RemoveVdo(data)
+                case "disconnected":
+                    //hide the vdo and display connecting
+                    var el = document.getElementById(data.email)
+                    if(el){
+                        el.parentNode.style.display = 'none'
+                    }
+                case "connected":
+                    //show the vdo
+                    var el = document.getElementById(data.email)
+                    if(el){
+                        el.parentNode.style.display = 'block'
+                    }
+            }
+
+        }
+
+        var OnTrackFunction = function(eve,data){
+            console.log('add user vdo and audio stream')
+            var el = document.getElementById(data.email)
+            if(el){
+                el.srcObject = eve.streams[0];
+                el.addEventListener('loadedmetadata', function (e) {
+                    el.muted = true
+                    el.play();
+                })
+            }else{
+                var div = document.createElement('div')
+                var p = document.createElement('p')
+                div.setAttribute('class', 'video-container')
+                p.innerHTML = data.name
+                const peerVdo = document.createElement('video')
+                peerVdo.setAttribute('id', data.email)
+                const displayVdo = document.getElementById('student-vdo-container')
+                div.appendChild(peerVdo)
+                div.appendChild(p)
+                displayVdo.appendChild(div)
+                peerVdo.srcObject = eve.streams[0];
+                peerVdo.addEventListener('loadedmetadata', function (e) {
+                    peerVdo.muted = true
+                    peerVdo.play();
+                })
+            }
+        }
+
+        var RemoveVdo = function(data){
+            var el = document.getElementById(data.email)
+                if(el){
+                    console.log("Removed User vdo")
+                    el.parentNode.parentNode.removeChild(el.parentNode)
+                }
+        }
+    </script>
+</body>
+</html>

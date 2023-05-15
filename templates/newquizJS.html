@@ -1,0 +1,648 @@
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+  {{ super() }}
+
+{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+
+<script type="text/javascript">
+
+
+ if (window.performance) {
+  console.info("window.performance works fine on this browser");
+  //var full=confirm("You need to go to full screen to give this test");
+ /* if(full==true)
+  {
+  
+  if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+
+  }
+  else
+  {
+    alert("false");
+  } */
+}
+console.info(performance.navigation.type);
+if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+  alert( "Your Information Will be lost if you reload the page" );
+} else {
+  var elem = document.documentElement;
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem = window.top.document.body; //To break out of frame in IE
+    elem.msRequestFullscreen();
+  }
+}
+
+</script>
+
+
+
+<script type="text/javascript">
+//This is the script to disable F5 of keyboard.
+function disableF5(e) { 
+  if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) {
+    e.preventDefault(); 
+  }
+};
+
+$(document).ready(function(){
+  $(document).on("keydown", disableF5);
+});
+</script>
+
+<script>
+
+var tim={{tdelta}}*60;
+var total_seconds = {{duration_exam}}*60;
+console.log(total_seconds);
+console.log(tim);
+if(tim>=total_seconds)
+{
+  total_seconds=total_seconds;
+}
+else
+{
+  total_seconds=tim;
+}
+
+//on a fresh reload it will take actual time but if reloaded it will take the time from localStorage.
+
+if(localStorage.getItem('minutes')){
+    minutes = localStorage.getItem('minutes')
+    seconds = localStorage.getItem('seconds')
+    //convert the minutes into seconds and add seconds and pass it to total_seconds
+     total_seconds = ((parseInt(minutes) * 60) + parseInt(seconds));
+}
+    var c_minutes = parseInt(total_seconds / 60);
+    var c_seconds = parseInt(total_seconds % 60);
+    localStorage.setItem("minutes", c_minutes)
+    localStorage.setItem("seconds", c_seconds);
+var timer;
+
+
+function formSubmit(event){
+  //This function is used to submit form by students
+  if(event){
+    event.preventDefault();
+  }
+  if(confirm('Are you sure you want to submit the test?')){
+    console.log("submit form");
+    localStorage.removeItem("minutes");
+    localStorage.removeItem("seconds");
+    formu = document.getElementById("formQuiz");
+    console.log(formu)
+    var ans = {};
+    var ansCounter = {}
+    for (let i=0; i<formu.length; i++ ){
+      if(formu[i].type === 'radio'){
+        if(formu[i].checked){
+          //ans found
+          ans[formu[i].name] = formu[i].value
+          console.log("Got ans for "+ formu[i].name)
+        }else{
+          if(ansCounter[formu[i].name]){
+            //there is a key existed update it by 1
+            ansCounter[formu[i].name] += 1
+          }else{
+            //no existence of any key
+            ansCounter[formu[i].name] = 1
+          }
+          if(ansCounter[formu[i].name] === 4){
+            //no ans found
+            ans[formu[i].name] = "Not Answered"
+            console.log("No ans for "+ formu[i].name)
+          }
+        }
+      }
+    }
+    body = {
+      user_id: '{{user_id}}',
+      ans: ans
+    }
+    clearTimeout(timer);
+
+    var questions = document.getElementById("question");
+    question.innerHTML = `<a id="new">Submitting....<i class="fa fa-spinner fa-spin fa-3x"></i></a>`;
+    fetch('/submit-test1', {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    })
+    .then(function (response) {
+        return response.json();
+    }).then(function (res) {
+        var questions = document.getElementById("question").innerHTML = '';
+        question.innerHTML = `<a id="new">${res['message']}<i class="fa fa-check fa-3x"></i></a>`
+    });
+    console.log(body)
+  }
+}
+
+function CheckTime() {
+  //this function will keep track of time 
+  document.getElementById("quiz-time-left").innerHTML = 'Time Left: ' + localStorage.getItem('minutes') + ' minutes ' + localStorage.getItem("seconds") + ' seconds ';
+    if (total_seconds <= 0) {
+        alert('you are out of time');
+        silentSubmit();
+    } else {
+        total_seconds = total_seconds - 1;
+        c_minutes = parseInt(total_seconds / 60);
+        c_seconds = parseInt(total_seconds % 60);
+        localStorage.setItem("minutes", c_minutes);
+        localStorage.setItem("seconds", c_seconds);
+        timer = setTimeout(CheckTime, 1000);
+    }
+}
+timer = setTimeout(CheckTime, 1000);
+
+if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+  }else {
+  console.info( "This page is not reloaded");
+}
+</script>
+<style>
+#quiz-time-left
+{
+  background-color:blue;
+}
+
+.question p{
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.button-align{
+  display:flex;
+  flex-wrap:wrap;
+  
+  grid-template-columns:repeat(10,1fr);
+}
+
+/* .sender,.message
+{
+  color:white;
+} */
+.chatbubble
+{
+  background-color:#696969;
+}
+
+
+#new_button
+{
+  color:white;
+  background-color:#686868;
+  display: block;
+  width: 95px;
+  height: 40px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  line-height: 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+
+}
+.button-align2{
+  margin:2px;
+  width:35px;
+}
+#new
+{
+  color:white;
+  background-color:#686868;
+  float:center;
+  display: block;
+  width: 215px;
+  height: 70px;
+  margin-left: 250px;
+  padding-top:10px;
+  margin-top: 210px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  line-height: 25px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+#next
+{
+  color:white;
+  float:right;
+  display: block;
+  width: 115px;
+  height: 40px;
+ padding-top:5px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  line-height: 25px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+#previous
+{
+  color:white;
+  float:left;
+  width: 115px;
+  height: 40px;
+   padding-top:5px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  line-height: 25px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.content-carrier{
+  display: grid;
+  grid-template-columns: 70% 30%;
+}
+
+
+#question{
+  padding-bottom: 20px;
+  border-bottom: 2px solid #ccc;
+}
+
+.disp-vdo video{
+  margin-left: 14px;
+  width:90%;
+}
+</style>
+
+  <body  >
+
+<div class="" style="text-align:left;">
+  <form class="" method="post" id="formQuiz">
+    <div class="content-carrier">
+      <div class="" id="question">
+        <!-- below selector will be displayed till fetch is not completed  -->
+        <div class="m-auto w-100" id="spinner">
+          <div class="m-auto">
+            <i class="fa fa-spinner fa-spin fa-3x"></i>
+          </div>
+        </div>
+      </div>
+      <div class="vl">
+        <div class="button_container" id="btn-container">
+         <!-- this carries btn used in navigation  -->
+        </div>
+        <div>
+          <a onclick="toggleClick()">
+            <img  alt="Qries" src="../static/images/camera.png" width="50" height="50" style="margin-left:14px;">
+          </a>
+          <div class="disp-vdo" id="disp">
+            <video id="my-vdo" ></video>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button class="end_test" onclick=formSubmit(event) style="float:right;">End test</button>
+      </div>
+      <!-- <div><img alt="Qries" src="../static/images/camera.png" width="50" height="50" style="margin-left:14px;"></div> -->
+    </div>
+  </form>
+</div>
+<div class="chatbubble">
+    <div class="unexpanded" style="background-color:#696969;">
+        <div class="title">Chat Support</div>
+    </div>
+    <div class="expanded chat-window">
+      <div class="login-screen container">
+        <form id="loginScreenForm">
+          <div class="form-group">
+            <input type="text" style="width:300px;" class="form-control" id="fullname" placeholder="Name*" value="{{stu_name}}">
+          </div>
+          <div class="form-group">
+            <input type="email" style="width:300px;"  class="form-control" id="email" placeholder="Email Address*" value="{{student_email}}">
+          </div>
+          <button type="submit" style="width:300px;"  id="new_button">Start Chat</button>
+        </form>
+      </div>
+      <div class="chats">
+        <div class="loader-wrapper">
+          <div class="loader">
+            <span>{</span><span>}</span>
+          </div>
+        </div>
+        <ul class="messages clearfix">
+        </ul>
+        <div class="input">
+          <form class="form-inline" id="messageSupport">
+            <div class="form-group">
+              <input type="text" autocomplete="off" class="form-control" id="newMessage" placeholder="Enter Message">
+            </div>
+            <button type="submit" id="new_button">Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+        <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
+        <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/axios.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+
+    <script src="./static/app.js"></script>
+    <script src="./static/timer.js"></script>
+    <!-- Script added for socket io  -->
+   
+    
+
+    <script src="./static/app.js"></script>
+    <script src="./static/timer.js"></script>
+    </body>
+    <style media="screen">
+      .hid {display:none;}
+    </style>
+      <script type="text/javascript">
+        function toggleClick(){
+          document.getElementById('disp').classList.toggle('hid')
+        }
+
+        function createQuiz(arr){
+          console.log(arr.length)
+          for(let i=0;i<arr.length;i++){
+          var div = document.createElement('div');
+            var questionHeading = document.createElement('div');  //according to new design
+            var question = document.createElement('div');  //according to new design
+            var btnDiv = document.createElement('div');
+            var br = document.createElement('br');
+            var radioBtn = document.createElement('div');
+            var opt1 = document.createElement('div');
+            var opt2 = document.createElement('div');
+            var opt3 = document.createElement('div');
+            var opt4 = document.createElement('div');
+            var p = document.createElement("p");
+            var nextBtn = document.createElement('a');
+            var prevBtn = document.createElement('a');
+            // new modification 
+            questionHeading.setAttribute('class',"question_heading" )
+            question.setAttribute('class', "question")
+            btnDiv.setAttribute('class', "button")
+            if(i!=0){
+              div.setAttribute('class','hid questionRendered');
+            }
+            div.setAttribute('id',i);
+            questionHeading.innerText = "Question No."+(i+1)+" of "+arr.length;
+            p.innerText = arr[i]['question']
+            question.appendChild(p)
+            opt1.innerHTML = `<input type="radio" id="a${i}a" class="labelt"name="${arr[i]['question_id']}" value="${arr[i]['option_a']}"> <label for="female">&nbsp;${arr[i]['option_a']}</label><br>`
+            opt2.innerHTML = `<input type="radio" id="b${i}b" name="${arr[i]['question_id']}" value="${arr[i]['option_b']}"> <label for="female">&nbsp;${arr[i]['option_b']}</label><br>`
+            opt3.innerHTML = `<input type="radio" id="c${i}c" name="${arr[i]['question_id']}" value="${arr[i]['option_c']}"> <label for="female">&nbsp;${arr[i]['option_c']}</label><br>`
+            opt4.innerHTML = `<input type="radio" id="d${i}d" name="${arr[i]['question_id']}" value="${arr[i]['option_d']}"> <label for="female">&nbsp;${arr[i]['option_d']}</label><br>`
+            opt1.children[0].addEventListener('input',(e)=>
+            {
+              document.getElementById(`btn${i}`).style.backgroundColor="green";
+            })
+             opt2.children[0].addEventListener('input',(e)=>
+            {
+              document.getElementById(`btn${i}`).style.backgroundColor="green";
+            })
+             opt3.children[0].addEventListener('input',(e)=>
+            {
+              document.getElementById(`btn${i}`).style.backgroundColor="green";
+            })
+             opt4.children[0].addEventListener('input',(e)=>
+            {
+              document.getElementById(`btn${i}`).style.backgroundColor="green";
+            })
+            radioBtn.setAttribute('class', 'radio_button');
+            nextBtn.setAttribute('onclick', `nextOne(${i})`);
+            nextBtn.setAttribute('id', 'next');
+            nextBtn.setAttribute('class', 'next_btn');
+            nextBtn.innerHTML = `Next`
+            prevBtn.innerHTML = `Previous`
+            prevBtn.setAttribute('onclick', `prevOne(${i})`);
+            prevBtn.setAttribute('id', 'previous');
+            prevBtn.setAttribute('class', 'back_btn');
+            radioBtn.appendChild(opt1);
+            radioBtn.appendChild(opt2);
+            radioBtn.appendChild(opt3);
+            radioBtn.appendChild(opt4);
+            questionHeading.appendChild(br)
+            questionHeading.appendChild(question);
+            questionHeading.appendChild(radioBtn);
+            questionHeading.appendChild(br);
+            questionHeading.appendChild(btnDiv);
+            div.appendChild(questionHeading);
+            if(i!=0){
+              btnDiv.appendChild(prevBtn);
+            }
+            if(i!=arr.length-1){
+              btnDiv.appendChild(nextBtn);
+
+            }
+            if(i==arr.length-1){
+              var submitBtn = document.createElement('a');
+              submitBtn.setAttribute('id', 'next');
+              submitBtn.setAttribute('class', 'next_btn')
+              submitBtn.setAttribute('type', 'submit');
+              submitBtn.setAttribute('onclick', 'formSubmit()');
+              submitBtn.innerText = 'Submit';
+              btnDiv.appendChild(submitBtn);
+            }
+            var questions = document.getElementById("question");
+            questions.appendChild(div);
+          }
+        }
+
+        function nextOne(id){
+
+          document.getElementById(id).classList.add('hid');
+          document.getElementById(id+1).classList.remove('hid');
+        }
+        function prevOne(id){
+          document.getElementById(id).classList.add('hid');
+          document.getElementById(id-1).classList.remove('hid');
+        }
+
+        fetch('/question-list1', {
+          method: 'POST',
+          body: JSON.stringify({'user_id':'{{user_id}}'}),
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+          }
+        })
+        .then(function (response) {
+            console.log("Got Response")
+            return response.json();
+        })
+        .then(function (questionArray) {
+            console.log("Received question")
+            document.getElementById("spinner").style.display = "none"
+            var questions = document.getElementById("question");
+            createQuiz(questionArray);
+            createSelector(questionArray);
+        })
+        .catch(e=>{
+          console.log("Caused Error")
+          console.log(e)
+        });
+
+        function createSelector(arr){
+          let div = document.createElement('div')
+         
+          
+          div.setAttribute('class','button-align');
+           
+          var questions = document.getElementById("btn-container");
+          for (i=0; i<arr.length; i++){
+            let btn = document.createElement('a')
+            btn.setAttribute('class','visited');
+            btn.setAttribute('id',`btn${i}`);
+             let div2 = document.createElement('div')
+             div2.setAttribute('class','button-align2');
+            let num = i+1
+            btn.innerHTML = num
+            btn.addEventListener('click', (e)=>{
+              e.preventDefault()
+              console.log("Btn is clicked disptch event")
+              
+              if(!btn.style.backgroundColor )
+              {
+                btn.style.backgroundColor = "orange";
+              }
+              
+              for (j=0; j<arr.length; j++){
+                if(!document.getElementById(j).classList.contains('hid')){
+                  console.log("In the loop")
+                  document.getElementById(j).classList.add('hid')
+                  
+                  break
+                }
+              }
+              document.getElementById(num-1).classList.remove('hid')
+            })
+            div2.appendChild(btn)
+            div.appendChild(div2)
+
+            questions.appendChild(div); 
+
+          }
+        }
+
+function silentSubmit(){
+  console.log("submit form");
+  formu = document.getElementById("formQuiz");
+  console.log(formu)
+  var ans = {};
+  var ansCounter = {}
+  for (let i=0; i<formu.length; i++ ){
+    if(formu[i].type === 'radio'){
+      if(formu[i].checked){
+        //ans found
+        ans[formu[i].name] = formu[i].value
+        console.log("Got ans for "+ formu[i].name)
+      }else{
+        if(ansCounter[formu[i].name]){
+          //there is a key existed update it by 1
+          ansCounter[formu[i].name] += 1
+        }else{
+          //no existence of any key
+          ansCounter[formu[i].name] = 1
+        }
+      if(ansCounter[formu[i].name] === 4){
+        //no ans found
+        ans[formu[i].name] = "Not Answered"
+        console.log("No ans for "+ formu[i].name)
+        }
+      }
+    }
+  }
+
+  body = {
+    user_id: '{{user_id}}',
+    ans: ans
+  }
+  clearTimeout(timer);
+
+  var questions = document.getElementById("question");
+  question.innerHTML = `<a id="new">Submitting....<i class="fa fa-spinner fa-spin fa-3x"></i></a>`;
+  fetch('/submit-test1', {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8'
+    }
+  }
+  )
+  .then(function (response) {
+      return response.json();
+  }).then(function (res) {
+      var questions = document.getElementById("question");
+      question.innerHTML = `<a id="new">${res['message']}<i class="fa fa-check fa-3x"></i></a>`
+      sessionStorage.setItem('submited', 'true')
+    });
+  console.log(body)
+  }
+
+        
+</script>
+<script>
+     window.addEventListener('blur', (e)=>{
+      console.log("He Blurred Me")
+      let countChg = sessionStorage.getItem("countChg")
+      if(countChg){
+    let countChgNum = parseInt(countChg)
+    console.log(countChgNum)
+    if(countChgNum === 1){
+      //submit code
+      console.log("Exam Submitted")
+      if(sessionStorage.getItem('submited')){
+        console.log("Exam already Submitted");
+      }else{
+        console.log(sessionStorage.getItem('submited'))
+        console.log("Your Exam is submitted")
+        silentSubmit()
+      }
+    }else{
+      countChg -= 1
+      sessionStorage.setItem('countChg', countChg)
+      alert("If you changed "+ countChg +" times exam will be submitted.")
+    }
+  }else{
+    sessionStorage.setItem('countChg', "2")
+    alert("If you changed "+ 2 +" times exam will be submitted.")
+    console.log("Session storage set")
+  }
+})
+      </script>
+
+  {% endblock %}

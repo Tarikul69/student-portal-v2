@@ -1,0 +1,261 @@
+/* !-----This style2.css for "newfile.html" --->*/
+/* This * code will reflect in full page*/
+* {
+    margin: 0;
+    padding : 0;
+    box-sizing: border-box;
+}
+.form-row {
+    display: flex;
+    margin-bottom: 18px;
+  }
+  .form-row .form-holder {
+    width: 50%;
+    margin-right: 30px;
+  }
+  .form-row .form-holder:last-child {
+    margin-right: 0;
+  }
+  .form-row .form-holder.w-100 {
+    width: 100%;
+    margin-right: 0;
+  }
+  .form-row .select {
+    width: 50%;
+    margin-right: 30px;
+  }
+  .form-row .select .form-holder {
+    width: 100%;
+    margin-right: 0;
+  }
+/*Body Code */
+body{
+    background-color: white;
+}
+/* main div class tab */
+.tab{
+    display: none;
+}
+/*this is for pregress bar*/
+.tab .count{
+    display: flex;
+    align-items: center;
+    margin: 20px;
+    margin-left: 578px;
+}
+
+.first, .second, .third {
+    display: flex;
+}
+
+.namebox, .emailbox, .durationbox, .subjectbox, .startbox, .endbox {
+    padding: 2px;
+    width: 50%;
+}
+
+.emailbox, .durationbox, .endbox {
+    margin-left: 10px;
+}
+
+.sessionbox, .collegebox, .statebox, .countrybox {
+    margin-left: 20px;
+    padding: 2px;
+    width: 66%;
+}
+
+.unibox, .citybox {
+    width: 66%;
+    padding: 2px;
+}
+
+/*this responsive for Rules and regulation*/
+@media (max-width : 450px) {
+    .tab .rules{
+        font-size: 1rem;
+        margin-left: 2rem ;
+    }
+}
+@media (max-width : 1322px) {
+    .tab .rules{
+        font-size: 1rem;
+        margin-left: 2rem ;
+    }
+}
+/*responsive end here*/
+/*this is for Rules and regulations*/
+.tab .rules{
+    color:#154360;
+    margin-left: 366px;
+    margin-bottom: 30px;
+}
+.tab .count div{
+    height: 10px;
+    width: 10px;
+    background-color: rgba(255, 255, 255, 0.877);
+    border: 4px solid gray;
+    border-radius: 50%;
+    padding: 5px;
+    margin-left: 50px;
+    color: #ccc;
+    position: relative;
+    cursor: pointer;
+}
+.tab .count .active{
+    border: 4px solid #239B56;
+}
+.count div::before{
+    content: '';
+    position:absolute;
+    top:5px;
+    left: 20px;
+    height: 2px;
+    width: 40px;
+    background: #ccc;
+}
+.count div:last-child::before{
+    display: none;
+}
+.count div::before .active{
+background: green;
+}
+/* Progress bar end here*/
+/* regform form id*/
+#regForm {
+    background-color: #ffffff;
+    margin: 50px auto;
+    padding: 40px 30px;
+    width: 70%;
+    min-width: 300px;
+    border-radius: 5px;
+    border:2px solid #cac9c9;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+/*this is for logo*/
+#regForm .logo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+}
+/*this is for title*/
+#regForm .title{
+    font-weight: bold;
+    color: #154360;
+    margin-left: 10px;
+    margin-right: 18rem;
+    border: 2px solid #154360;
+    padding: 1px 20px;
+    margin-bottom: 8px;
+    font-size: 2rem;
+}
+/*tiltle responsive*/
+@media (max-width : 450px) {
+    #regForm .title{
+        font-size: 1rem;
+        margin-left: 2rem ;
+    }
+}
+@media (max-width : 970px) {
+    #regForm .title{
+        font-size: 1rem;
+        margin-left: 2rem ;
+    }
+}
+/*!----------------------*/
+/*progress bar responsive*/
+@media (max-width : 1180px){
+    .tab .count{
+        margin-left:30rem;
+    }
+}
+@media (max-width : 1035px){
+    .tab .count{
+        margin-left:0rem;
+    }
+}
+/* this checkbox1 class for checkbox*/
+.tab .checkbox1{
+    width: 15px;
+    height: 15px;
+}
+/* class for term and condition*/
+.tab .termcondition{
+    font-size: 18px;
+    padding: 16px;
+}
+/* this for link<a></a>*/
+.tab .termcondition a{
+    text-decoration: none;
+    color: #1ABC9C;
+}
+/* this is for input text*/
+input[type=text]{
+    padding: 10px;
+    width: 100%;
+    font-size: 17px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 1.2rem;
+    outline: none;
+}
+/*this is for instruction textarea*/
+input[type=text1]{
+    padding: 10px;
+    width: 100%;
+    height: 156px;
+    font-size: 17px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 1.2rem;
+    outline: none;
+    padding-bottom: 7rem;
+}
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+    background-color: #ffdddd;
+}
+/* Hide all steps by default: */
+.tab .inputbox{
+     color: #adaaaa;
+     font-size: 1.2rem;
+}
+/*for textarea*/
+.tab .textarea{
+    width: 97%;
+    height: 149px;
+}/*for button*/
+button{
+    background-color: #2F4F4F;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 17px;
+    font-family: Raleway;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+button:hover{
+    opacity: 0.8;
+}
+#prevBtn{
+    background-color: #bbbbbb;
+}
+/* Make circles that indicate the steps of the form: */
+.step{
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;  
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+}
+.step.active{
+    opacity: 1;
+}
+/* Mark the steps that are finished and valid: */
+.step.finish{
+    background-color: #04AA6D;
+}

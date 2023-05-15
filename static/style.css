@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+}
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #e3582c;
+}
+.welcome-text {
+  width: 400px;
+}
+.welcome-form input,
+.welcome-form button {
+  display: block;
+  width: 100%;
+}
+
+.welcome-form input {
+  margin-bottom: 15px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #fff;
+  color: #fff;
+  font-size: 22px;
+  text-align: center;
+}
+
+.welcome-form button {
+  font-size: 25px;
+  border: none;
+  padding: 20px 0;
+  background-color: #fff;
+  color: black;
+  border-radius: 100px;
+  transition: 0.5s all;
+}
+
+.welcome-form button:hover {
+  cursor: pointer;
+}
+.welcome-form input:focus,
+.welcome-form button:focus {
+  outline: none;
+}
+
+
+
+.quiz-user {
+  display: flex;
+  align-items: center;
+  padding-left: 25px;
+}
+.quiz-timer {
+  display: flex;
+  align-items: center;
+  background-color: #f35e1e;
+  color: #fff;
+  padding: 25px;
+}
+
+.option-group {
+  margin: 30px 0;
+  list-style-type: none;
+}
+.option {
+  background-color: #fff;
+  width: 300px;
+  margin-bottom: 15px;
+  padding: 15px 20px;
+  border: 2px solid transparent;
+}
+.option:hover {
+  border: 2px solid #f35e1e;
+}
+
+.btn-next {
+  background-color: #f35e1e;
+  color: #fff;
+  padding: 15px 35px;
+  border: none;
+  border-radius: 25px;
+  transition: 0.5s all;
+  font-weight: bold;
+}
+.btn-next:hover {
+  background-color: #fff;
+  color: #f35e1e;
+}
+
+.active {
+ 
+  color: #fff;
+}
+
+.award-icon {
+  font-size: 200px;
+}
+.user-name,
+.user-points,
+.user-time {
+  color: #fff;
+  text-align: center;
+  margin-top: 20px;
+}

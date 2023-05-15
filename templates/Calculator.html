@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet"> 
+    <link href="{{ url_for('static', filename='css/newstyle.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Calculator</title>
+  </head>
+  <body data-spy="scroll" data-target=".navbar" data-offset="50">
+    <nav class="navbar bg-secondary navbar-dark fixed-top"><!--navbar-expand-md can be removed to ALWAYS hide navbar links and display the toggler button.-->
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">CALCULATOR</a>
+
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="nav navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#Standard">Standard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#Scientific">Scientific</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<div id="Scientific">
+  <div class="container">
+
+  <form class="form">
+
+    <div class="table-responsive">
+      
+
+      <table class="table table-light">
+    <h2 class="text-*-center">SCIENTIFIC</h2>
+
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+
+        </tr>
+        <tr class="row">
+      <td colspan="6"><input type="text" class="form-control input-lg" id="Scientific_result" value="0" readonly autofocus autocomplete="off"></td>
+          
+        </tr>
+        <tr class="row">
+        <td class="col-*-*" ><input type="button" class="btn btn-outline-dark" value='C'  onclick="clearALL_s()"></td> 
+        <td class="col-*-*"><input type="button" class="btn btn-outline-dark" value='&#x232b;'  onclick="backspace_s()"></td> 
+
+        <td colspan="4" align="center"><input type="button" class="btn btn-default btn-secondary" id="equate" name="equate" value='='  onclick="calculate_s()"></td>
+
+        </tr>
+      <tr class="row">
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="log" value='log' onclick="display_s('log(',this.name)"></td>
+
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='7'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='8'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='9'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="operator" value='&times;'  onclick="display_s('*',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="power" value='^' onclick="display_s(this.value,this.name)"></td>
+
+    </tr>
+    <tr class="row">
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="ln" value='ln'  onclick="display_s('ln(',this.name)"></td>
+
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='4'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='5'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='6'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="operator" value='&minus;' onclick="display_s('-',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="percent" value='%' onclick="percentage()"></td>
+
+      
+    </tr>
+    <tr class="row">
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='1/x'  onclick="display_s('1/',this.name)"></td>
+
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='1' onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='2'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='3'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="operator" value='&plus;'  onclick="display_s('+',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="Factorial" value='X!' onclick="display_s('!',this.name)"></td>
+
+    </tr>
+      <tr class="row">
+
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='&Pi;'  onclick="display_s('PI',this.name)"></td>
+
+        <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="negate" value='&plusmn;' onclick="negative_s()"></td>
+        <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='0' onclick="display_s(this.value,this.name)"></td>
+        <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="decimal" value='.'  onclick="display_s(this.value,this.name)"></td>
+
+        <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="operator" value='&divide;'  onclick="display_s('/',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="root" value='&radic;' onclick="display_s('sqrt(',this.name)"></td>
+
+
+      </tr>
+      <tr class="row">
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="(" value='('  onclick="display_s(this.value,this.name)"></td>
+
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="sin" value='sin' onclick="display_s('sin(',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="cos" value='cos' onclick="display_s('cos(',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="tan" value='tan'  onclick="display_s('tan(',this.name)"></td>
+
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="e" value='exp'  onclick="display_s('exp(',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name=")" value=')' onclick="display_s(this.value,this.name)"></td>
+
+    </tr>
+
+
+      </table>
+    </div>
+  </form>
+</div>
+</div>
+<script src="static/js/Calculator.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  </body>
+</html>

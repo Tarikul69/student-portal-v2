@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- new modification  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- ------  -->
+    <title>Your Questions</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}" />
+    <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet"> 
+    <link href="{{ url_for('static', filename='css/newstyle.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- new modification  -->
+    <link rel="stylesheet" href="../static/css/boot.css">
+    <link rel="stylesheet" href="../static/css/testapp.css">
+    <!-- ------  -->
+  </head>
+  <script type="text/javascript">
+    window.onload = maxWindow;
+
+    function maxWindow() {
+        window.moveTo(0, 0);
+
+        if (document.all) {
+            top.window.resizeTo(screen.availWidth, screen.availHeight);
+        }
+
+        else if (document.layers || document.getElementById) {
+            if (top.window.outerHeight < screen.availHeight || top.window.outerWidth < screen.availWidth) {
+                top.window.outerHeight = screen.availHeight;
+                top.window.outerWidth = screen.availWidth;
+            }
+        }
+    }
+</script> 
+  <style>
+ 
+  .quiz-user
+  {
+    color:black;
+  }
+    #mySidenav a {
+      position: absolute;
+      right: -80px;
+      transition: 0.3s;
+      padding: 15px;
+      width: 100px;
+      text-decoration: none;
+      font-size: 20px;
+      color: white;
+      border-radius: 0 5px 5px 0;
+    }
+    
+    #mySidenav a:hover {
+      right: 0;
+    }
+    
+    #video {
+      top: 20px;
+      background-color: #e42b0a;
+    }
+    
+    #blog {
+      top: 80px;
+      background-color: #2196F3;
+    }
+    
+    #projects {
+      top: 140px;
+      background-color: #f44336;
+    }
+    
+    #contact {
+      top: 200px;
+      background-color: #555
+    }
+
+    .dropbtn {
+  
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  float:right;
+  /* display: inline-block; */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  margin-top:30px;
+}
+body{
+            margin: 0;
+        }
+        .topbar{
+            display: flex;
+            justify-content: space-between;
+            background-color: #2F4F4F;
+            color: white;
+        }
+        .EnR, .signout {
+            padding-top: 13px;
+            font-size: 25px;
+        }
+        .logo {
+            padding: 6 14 6 6;
+        }
+        .signout {
+            padding-right: 14px;
+        }
+        .signout a{
+            color:white;
+            text-decoration: none;
+        }
+
+
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+
+</style>
+    </style>
+   
+
+</head>
+
+    <header class="topbar">
+        <!--Main header div start here--> 
+           <div class="logo">
+               <img alt="Qries" src="../static/images/logo.png" width="50" height="50">
+            </div>
+           <div class="EnR">
+               <span>Welcome to {{college}}</span>
+           </div>
+           <div class="signout">
+               <a href="/logout" style="text-decoration:none;"><i class="fa fa-sign-out"></i><span>Sign Out</span></a>
+           </div>
+        <!--Main header div end here-->
+    </header>
+    <div class="wrapper-quiz">
+      <div class="quiz">
+        <div class="quiz-header">
+          <!-- <div class="quiz-user text-dark"><img src="https://static.thenounproject.com/png/503257-200.png" width="30" height="30">
+            &nbsp;&nbsp;{{stu_name}} 
+          </div> -->
+          <div class="hello">
+            <h2>Hello, {{stu_name}}</h2>
+            <div class="quiz-timer" id ="quiz-time-left" style="text-align:center;width:25rem;justify-content:flex-end;">
+            </div>
+          </div>
+      {% if calc %}
+         <a data-toggle="modal" data-target="#exampleModal">
+            <img src="data:image/png;base64,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" alt="Girl in a jacket" width="50" height="40" id="best"  style="margin-top:4px;margin-right:-350px;" hidden>
+          </a> 
+          {% endif %}
+        </div>
+    {% block content %}
+    
+    
+    
+    {% endblock %}
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="Scientific">
+  <div class="container ">
+
+  <form class="form">
+
+    <div class="table-responsive">
+      
+
+      <table >
+    <h5 style="margin-left:-812px;color:#696969;margin-bottom:13px;font-family:verdana;">SCIENTIFIC CALCULATOR</h5>
+
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+
+        </tr>
+        <tr class="row">
+      <td colspan="6" style="margin-left:-132px;"><input type="text" class="form-control input-lg" id="Scientific_result" value="0" readonly autofocus autocomplete="off"></td>
+          
+        </tr>
+        <tr class="row">
+        <td class="col-*-*" ><input type="button" class="btn btn-outline-dark" value='C'  onclick="clearALL_s()"></td> 
+        <td class="col-*-*"><input type="button" class="btn btn-outline-dark" value='&#x232b;'  onclick="backspace_s()"></td> 
+
+        <td colspan="4" align="center"><input type="button" class="btn btn-default btn-secondary" id="equate" name="equate" value='='  onclick="calculate_s()"></td>
+
+        </tr>
+      <tr class="row">
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="log" value='log' onclick="display_s('log(',this.name)"></td>
+
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='7'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='8'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='9'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="operator" value='&times;'  onclick="display_s('*',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="power" value='^' onclick="display_s(this.value,this.name)"></td>
+
+    </tr>
+    <tr class="row">
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="ln" value='ln'  onclick="display_s('ln(',this.name)"></td>
+
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='4'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='5'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='6'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="operator" value='&minus;' onclick="display_s('-',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="percent" value='%' onclick="percentage()"></td>
+
+      
+    </tr>
+    <tr class="row">
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='1/x'  onclick="display_s('1/',this.name)"></td>
+
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='1' onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='2'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='3'  onclick="display_s(this.value,this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="operator" value='&plus;'  onclick="display_s('+',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="Factorial" value='X!' onclick="display_s('!',this.name)"></td>
+
+    </tr>
+      <tr class="row">
+
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='&Pi;'  onclick="display_s('PI',this.name)"></td>
+
+        <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="negate" value='&plusmn;' onclick="negative_s()"></td>
+        <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="number" value='0' onclick="display_s(this.value,this.name)"></td>
+        <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="decimal" value='.'  onclick="display_s(this.value,this.name)"></td>
+
+        <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="operator" value='&divide;'  onclick="display_s('/',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="root" value='&radic;' onclick="display_s('sqrt(',this.name)"></td>
+
+
+      </tr>
+      <tr class="row">
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="(" value='('  onclick="display_s(this.value,this.name)"></td>
+
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="sin" value='sin' onclick="display_s('sin(',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="cos" value='cos' onclick="display_s('cos(',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="tan" value='tan'  onclick="display_s('tan(',this.name)"></td>
+
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name="e" value='exp'  onclick="display_s('exp(',this.name)"></td>
+      <td class="col-*-*"><input type="button" class="btn btn-outline-dark" name=")" value=')' onclick="display_s(this.value,this.name)"></td>
+
+    </tr>
+
+
+      </table>
+    </div>
+  </form>
+</div>
+</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+   
+      </div>
+    </div>
+  </div>
+</div>
+ <script src="static/js/Calculator.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+    let calc1={{calc}};
+    if(calc1==true)
+    {
+      console.log("calculator hai")
+     var btn = document.getElementById('best');
+			btn.removeAttribute('hidden');
+    }
+    </script>
+    <!-- cdn for socket io -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> -->
+    
+</html>

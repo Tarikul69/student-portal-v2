@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Side</title>
+    <script src="https://js.pusher.com/7.0.3/pusher.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <video id='my-vdo'>
+
+    </video>
+
+    <script>
+        var detail = new URLSearchParams(location.search)
+        console.log(detail.get('name'))
+        console.log(location.search)
+        let rtcPeerConnection
+        let upstream
+
+        const offerOptions = {
+            offerToReceiveAudio: 0,
+            offerToReceiveVideo: 1
+        }
+
+        var pusher = new Pusher('a60f02f7bde182f427ce', {
+            authEndpoint: '/pusher/auth',
+            cluster: 'ap2',
+            encrypted: true,
+        });
+
+       // Pusher.logToConsole = true
+
+        //   subscribing to general channel for proctor to listen 
+        var generalChannel = pusher.subscribe('vdo-channel');
+        generalChannel.bind("pusher:subscription_succeeded", ()=>{
+            console.log("Connected to general channel")
+        })
+        //subscribing to private channel and sending detail to proctor to listen
+        var vdoChannel = pusher.subscribe('private-'+detail.get('email'));
+        vdoChannel.bind("pusher:subscription_succeeded", ()=>{
+            var name = detail.get('name')
+            var email = detail.get('email')
+            var procname = detail.get('procname')
+            // var data = {'email':detail.email, 'proName': detail.name, 'stuName':'Random'}
+            // TODO: chg route 
+            axios.post('/newphp/vdoCall', {name, email, procname}).then(response => {
+                console.log('private channel by stu')
+            })
+            
+        })
+        // listening to private channel 
+        vdoChannel.bind('client-admin-ready', (data)=>{
+            console.log("data received")
+            getMedia(data)
+        })
+
+        vdoChannel.bind('client-set-ans', (data)=>{
+            console.log('setting answer')
+            rtcPeerConnection.setRemoteDescription(data['answer'])
+        })
+
+        vdoChannel.bind('client-admin-ice', (data)=>{
+            console.log('Setting admin ice')
+            let iceCandidate = new RTCIceCandidate(data['candidate'])
+            rtcPeerConnection.addIceCandidate(iceCandidate)
+        })
+
+        var getMedia = (data)=>{
+            navigator.mediaDevices.getUserMedia({
+                audio:false,
+                video: true
+            })
+            .then((stream)=>{
+                console.log('gotMedia')
+                upstream = stream
+                const uservdo = document.getElementById('my-vdo')
+                console.log(uservdo)
+                uservdo.srcObject = stream
+                uservdo.addEventListener('loadedmetadata' , function(e){
+                    uservdo.muted = true
+                    uservdo.play()
+                })
+                createOffer(data)
+            })
+            .catch(err=>{
+                console.log(err.name)
+            })
+        }
+
+        var createOffer = (data)=>{
+            var verifiedName = data.email
+            console.log(verifiedName)
+            axios.post('/getcredential', {'verifiedName':verifiedName})
+            .then((response)=>{
+                let iceServersTwo = {
+                    iceServers : [
+                        {
+                            urls : "turn:161.97.79.224:3478",
+                            username: response.data.username,
+                            credential: response.data.credential
+                        }
+                    ]
+                }
+                rtcPeerConnection = new RTCPeerConnection(iceServersTwo)
+                rtcPeerConnection.onicecandidate = (eve)=>{
+                    OniceCandidateFunction(eve, data)
+                }
+                rtcPeerConnection.oniceconnectionstatechange = (eve)=>{
+                    IceStateChgFun(eve,data)
+                }
+                rtcPeerConnection.addTrack(upstream.getTracks()[0], upstream)
+                rtcPeerConnection.onconnectionstatechange = (eve)=>{
+                    ConnectionStateChgFun(eve,data)
+                }
+                rtcPeerConnection.createOffer(offerOptions).then((offer)=>{
+                    rtcPeerConnection.setLocalDescription(offer,
+                        ()=>{
+                            console.log('It was successfull')
+                        },
+                        (eve)=>{
+                            console.log(eve)
+                        }
+                    )
+                    vdoChannel.trigger('client-set-offer', {
+                        'email':data.email,
+                        'name': data.name,
+                        'offer':offer
+                    })
+                })
+
+                window.addEventListener('beforeunload', ()=>{
+                    if(rtcPeerConnection){
+                        rtcPeerConnection.close()
+                        console.log("Closing Due to reload")
+                    } 
+                })
+            })
+            .catch((e)=>{
+                console.log(e)
+            })
+        }
+
+        var OniceCandidateFunction =  function(eve, data){
+            if(eve.candidate != null){
+                console.log('Candidate sent to admin')
+                vdoChannel.trigger('client-stu-ice', {'candidate':eve.candidate, 'email':data.email})
+            }
+        }
+
+        var IceStateChgFun = function(eve,data){
+            console.log(rtcPeerConnection.iceConnectionState)
+            if(rtcPeerConnection.iceConnectionState === "failed"){
+                console.log("creating offer again")
+                rtcPeerConnection.createOffer({...offerOptions, iceRestart: true})
+                .then((offer)=>{
+                    rtcPeerConnection.setLocalDescription(offer)
+                    vdoChannel.trigger('client-set-offer', {
+                        'email':data.email,
+                        'offer':offer
+                    })
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+
+            }
+        }
+
+        var ConnectionStateChgFun = function(eve,data){
+            console.log(rtcPeerConnection.connectionState)
+            if(rtcPeerConnection.connectionState === "failed"){
+                console.log("creating offer again")
+                rtcPeerConnection.createOffer({...offerOptions, iceRestart: true})
+                .then((offer)=>{
+                    rtcPeerConnection.setLocalDescription(offer)
+                    vdoChannel.trigger('client-set-offer', {
+                        'email':data.email,
+                        'offer':offer
+                    })
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+
+            }
+        }
+
+        
+    </script>
+</body>
+</html>

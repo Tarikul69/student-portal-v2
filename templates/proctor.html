@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+    
+    <link rel="stylesheet" href="../static/css/proctor.css" />
+
+    <title>Online Examination</title>
+    
+    <!-- Script added for socket io  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  </head>
+  <body id="body">
+    <div class="container">
+      <nav class="navbar">
+        <div class="nav_icon" onclick="toggleSidebar()">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </div>
+        <div class="navbar__left">
+          <a href="#">Video Management</a>
+          <a class="active_link" href="#">Admin</a>
+        </div>
+        <div class="navbar__right">
+          <a href="#">
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </a>
+          <a href="#">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+          </a>
+          <a href="#">
+            <img width="30" src="../static/images/download.png" alt="" />
+          </a>
+        </div>
+      </nav>
+
+      <main>
+        <div class="main__container">
+        
+
+          <div class="main__title">
+            <img src="../static/assets/hello.svg" alt="" />
+            <div class="main__greeting">
+              <h1>Hello, {{proctorname}}</h1>
+              <p>{{college_name}}</p>
+            </div>
+          </div>
+          <br><br>
+          <div  id="student-vdo-container">
+            <!-- Contains the vdo of user  -->
+          </div>
+
+    <div class="container-fluid">
+        <div class="row" id="mainrow">
+            <!-- <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+                <ul class="nav nav-pills flex-column" id="rooms">
+                </ul>
+            </nav> -->
+            <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3" id="main">
+                <h1>Chats</h1>
+                <h4 style="margin-bottom: 10px;">👈 Select a chat to load the messages</h4>
+                  <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+                    <ul class="nav nav-pills flex-column" id="rooms">
+                    </ul>
+                </nav>
+                
+                <p>&nbsp;</p>
+                <div class="chat" style="margin-bottom:150px">
+                    <h5 id="room-title"></h5>
+                    <p>&nbsp;</p>
+                    <div class="response" style="margin-bottom: 5px;">
+                        <form id="replyMessage">
+                            <div class="form-group">
+                                <input type="text" placeholder="Enter Message" class="form-control" name="message" style="width: 350px; height: 30px; border-radius: 4px;" />
+                                <button type="submit" style="background-color: #5bc0de; border-color: #46b8da; color:white ;width: 60px;border: none; height: 35px; border-radius: 4px; margin-left: 4px;" >Send</button>
+                            </div>
+                            
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table table-striped">
+                        <tbody id="chat-msgs" style = "background-color:white;border-radius: 5px;box-shadow: 4px;margin: 4px;padding:4px;">
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+    var names={{sections|safe}};
+    var email='{{proctor_email}}';
+    var name='{{proctorname}}';
+    </script>
+    
+
+
+    <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/axios.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>      
+  </main>
+        
+
+      <div id="sidebar">
+        <div class="sidebar__title">
+          <div class="sidebar__img">
+            <img src="../static/assets/logo.jpeg" alt="logo" />
+            <h1>ENR ONLINE</h1>
+          </div>
+          <i
+            onclick="closeSidebar()"
+            class="fa fa-times"
+            id="sidebarIcon"
+            aria-hidden="true"
+          ></i>
+        </div>
+
+        <div class="sidebar__menu">
+          <div class="sidebar__link active_menu_link">
+            <i class="fa fa-home"></i>
+            <a href="#">Dashboard</a>
+          </div>
+          <h2>MNG</h2>
+          <div class="sidebar__link">
+            <i class="fa fa-user-secret" aria-hidden="true"></i>
+            <a href="#">Admin Management</a>
+          </div>
+          <div class="sidebar__link">
+            <i class="fa fa-building-o"></i>
+            <a href="#">University Management</a>
+          </div>
+          
+          <div class="sidebar__logout">
+          <form action='/' method="GET">
+            <i class="fa fa-power-off"></i>
+            
+            <a href='#'>Log out</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="../static/js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
+    
+ 
+
+  <body  >
+
+<div class="quiz-body">
+<form action="/mainpage/{{QuestionUser.next_num}}" method="POST">
+
+          <div id="questions">
+          {% for QuestionUsers in  QuestionUser.items %}
+           <h2>Q{{page}}. {{QuestionUsers.questions}}</h2>
+
+            <ul class="option-group">
+              <li class="option"><input type="radio" id="male" name="gender" value="{{QuestionUsers.option_a}}">
+              <label for="female">&nbsp;{{QuestionUsers.option_a}}</label>
+              </li>
+              <li class="option"><input type="radio" id="male" name="gender" value="{{QuestionUsers.option_b}}">
+              <label for="female">&nbsp;{{QuestionUsers.option_b}}</label>
+              </li>
+              <li class="option"><input type="radio" id="male" name="gender" value="{{QuestionUsers.option_c}}">
+              <label for="female">&nbsp;{{QuestionUsers.option_c}}</label>
+              </li>
+              <li class="option"><input type="radio" id="male" name="gender" value="{{QuestionUsers.option_d}}">
+              <label for="female">&nbsp;{{QuestionUsers.option_d}}</label>
+              </li>
+            </ul> 
+          </div>
+          {% endfor %}
+          </br>
+</form>
+
+          {% if QuestionUser.has_next %}
+            <a class="btn btn-primary float-left" href="{{url_for('views1',page=QuestionUser.prev_num)}}"> &larr; Previous</a>
+             {% endif %} 
+      
+         
+
+          {% if QuestionUser.has_next %}
+          <a class="btn btn-primary float-right" style="margin-left:550px;" href="{{url_for('views1',page=QuestionUser.next_num)}}"> &rarr; Next</a>
+
+    
+       
+          {% else %}
+          <a class="btn btn-primary float-left" href="{{url_for('views1',page=QuestionUser.prev_num)}}"> &larr; Previous</a>
+          <a class="btn btn-primary  float-right"  style="margin-left:550px;" href="/submit">Submit </a>
+
+        {% endif %} 
+      
+
+        
+        </div>
+      </div>
+  
+
+    <script src="../app.js"></script>
+
+    <script src="./userInfo.js"></script>
+    <script src="./timer.js"></script>
+    </body>
+  {% endblock %}

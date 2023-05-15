@@ -1,0 +1,128 @@
+
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>Your Questions</title>
+        <link rel="stylesheet" href="../static/css/boot.css">
+        <link rel="stylesheet" href="../static/css/testapp.css">
+      </head>
+      <body>
+        <header class="topbar">
+            <!--Main header div start here-->
+             <div class="container flex justify-between item-center"> 
+               <div class="logo"><img alt="Qries" src="../static/images/0.jpeg" width="50" height="50"></div>
+               <div class="EnR">
+                   <span>Welcome to EnR Exam System</span>
+               </div>
+               <div class="contact">
+                   <a href="#"><i class="fa fa-sign-out"></i><span>Sign Out</span></a>
+               </div>
+            </div>
+            <!--Main header div end here-->
+        </header>
+        <div>
+            <div class="hello">
+                <h2>Hello, {{stu_name}}</h2>
+            </div>
+            <hr class="hr1">
+            <div class="question_heading">
+              Question No. : 1 
+              <span class="timer">1 hr 30 min</span><i class="fa fa-calculator">
+              </i>
+              <br>
+              <div class="question">
+                <p>The relation between mean and variance of a Poisson distribution is</p>
+              </div>
+              <div class="radio_button">
+                <input type="radio" id="mean1" name="contact" value="email">
+                <label for="mean1">Mean < Variance</label><br>
+
+                <input type="radio" id="mean2" name="contact" value="phone">
+                <label for="mean2">Mean > Variance</label><br>
+
+                <input type="radio" id="mean3" name="contact" value="mail">
+                <label for="mean3">Mean > Variance</label><br>
+
+                <input type="radio" id="mean4" name="contact" value="mail">
+                <label for="mean4">Mean = Variance</label>
+              </div>
+              <br>
+              <div><img alt="Qries" src="../static/images/camera.png" width="50" height="50" style="margin-left:85rem;"></div>
+                <hr class="hr2">
+              <div class="button">
+                <button class="back_btn">Back</button>
+                <button class="next_btn">Next</button>
+              </div>
+              <div>
+                <button class="end_test">End test</button>
+              </div>
+            </div>
+          <div class="vl">
+            <div class="button_container">
+              <a href="#">1</a> 
+              <a href="#">2</a>
+              <a href="#">3</a>
+              <a href="#">4</a>
+              <a href="#">5</a>
+              <a href="#">6</a>
+              <a href="#">7</a>
+              <a href="#">8</a><br><br>
+              <a href="#">9</a>
+              <a href="#">10</a>
+              <a href="#">11</a>
+              <a href="#">12</a>
+              <a href="#">13</a>
+              <a href="#">14</a> 
+              <a href="#">15</a><br><br>
+              <a href="#">16</a>  
+            </div>
+            <div class="chatbubble">
+              <div class="unexpanded">
+                <div class="title">Chat with Support</div>
+              </div>
+              <div class="expanded chat-window">
+                <div class="login-screen container">
+                  <form id="loginScreenForm">
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="fullname" placeholder="Name*" required>
+                    </div>
+                    <div class="form-group">
+                      <input type="email" class="form-control" id="email" placeholder="Email Address*" required>
+                    </div>
+                    <button type="submit" class="btn btn-block btn-primary">Start Chat</button>
+                  </form>
+                </div>
+                <div class="chats">
+                  <div class="loader-wrapper">
+                    <div class="loader">
+                      <span>{</span><span>}</span>
+                    </div>
+                  </div>
+                <ul class="messages clearfix">
+                </ul>
+                <div class="input">
+                  <form class="form-inline" id="messageSupport">
+                    <div class="form-group">
+                      <input type="text" autocomplete="off" class="form-control" id="newMessage" placeholder="Enter Message">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div>  
+    </div>  
+    </div>
+        <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
+        <script src="popper.js"></script>
+        <script src="jquery.js"></script>
+        <script src="bootstrap.js"></script>
+        <script src="axios.js"></script>
+        <script src="app.js"></script>
+        <script src="admin.js"></script>
+        
+      </body>
+    </html>

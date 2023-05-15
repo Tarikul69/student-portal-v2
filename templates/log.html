@@ -1,0 +1,55 @@
+<!--Student Portal Login Page-->
+<!DOCTYPE html>
+<html lang="en">
+<!--Start head tag-->
+ <head>
+  <meta charset="utf-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
+  <title>Login</title> 
+ </head>
+ <!-- Here End Head tag-->
+ <!--Body tag start form here-->
+ <body>
+     <!--Header start-->
+    <header class="topbar">
+    <!--Main header div start here-->
+     <div class="container flex justify-between item-center"> 
+      <div class="logo"><img alt="Qries" src="{{ url_for('static', filename='images/logo.png') }}" width="50" height="50"></div>
+       <div class="EnR">
+           <span>EnR Exam System</span>
+       </div>
+       <div class="contact">
+           <span >Contact Us</span>
+       <div class="content">
+           <h3>For Any Technical Queries</h3><br>
+           <p><i class="fa fa-envelope"></i>&nbsp;info@engagereap.com</p><br>
+           <p><i class="fa fa-phone"></i>9123452764,7847638373</p>
+       </div>
+        </div>
+       
+    </div>
+    <!--Main header div end here-->
+    </header>
+    <!--header end-->
+    <!--form div start here-->
+    <div class="form">
+        <form action="/" method="POST">
+          <h1>LOGIN</h1>
+          <div>
+              <input type="text" class="form-control"  placeholder="Email:" name="email">
+          </div>
+          <div>
+              <input type="password" class="form-control" placeholder="Password:" name="password">
+          </div>
+          <div>
+              <input type="submit" class="btn" value="LOGIN">
+          </div>
+          <h2 style="margin-top:20px;"> {{msg}}</h2>
+      </form>
+     </div>
+     <!--From div end here-->
+ </body>
+<!--Body tag end here-->
+</html>

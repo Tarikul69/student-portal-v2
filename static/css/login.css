@@ -1,0 +1,139 @@
+/* This * code should be reflect in full page*/
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+/*Body Code */
+body{
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    background: #cac9c9;
+}
+/* This container class for header*/
+.container{
+    width:100%;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+/*topbar class for header*/
+header.topbar{
+    background:#2F4F4F;
+    color: #FEFEFE;
+    padding: 0.20rem 0;
+}
+/*logo class for header image*/
+header.topbar .logo img{
+    margin-left: 0.8rem;
+}
+/*this EnR class for EnR exam services class*/
+header.topbar .EnR{
+    font-size: 25px;
+}
+/*This class is for contact*/
+header.topbar .contact{
+    font-size: 17px;
+    margin-right: 20px;
+}
+header.topbar .content{
+    position: absolute;
+    border:1px solid gray;
+    color: black;
+    bottom: 45%;
+    width: 220px;
+    height: 200px;
+    word-wrap: break-word;
+    background:#cac9c9;
+    padding: 15px;
+    box-sizing :border-box;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 4px;
+    visibility: hidden;
+    opacity: 0;
+    transition: transform 0ms ease-in;
+    transform: translateX(-50%) translateY(-50px);
+}
+header.topbar .contact:hover .content{
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(-50%);
+}
+/* this all 3 class use for form justification*/
+.flex{
+    display: flex;
+}
+.justify-between{
+    justify-content: space-between;
+}
+.item-center{
+    align-items: center;
+}
+/* this form class for form of login page*/
+.form{
+    margin: auto;
+    margin-top: 125px;
+    width: 500px;
+    
+}
+/* this is basically for form */
+.form form{
+    width: 100%;
+    height: 100%;
+    padding: 30px 50px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #507474;
+   /* box-shadow: 2px 8px 16px rgba(0,0,0,3);*/
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    
+}
+/* h1class for login content*/
+.form form h1{
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 25px;
+    color: black;
+}
+/*this form-control class for input textboxes*/
+.form form .form-control{
+    display: block;
+    width: 90%;
+    height: 40px;
+    background:#f7f4f4;
+    font-weight: bold;
+    font-size: 15px;
+    border-radius: 7px;
+    border: 2px solid silver;
+    margin: 20px 18px;
+    position: relative;
+    color: #2F4F4F;
+    padding: 0 15px;
+}
+/*this is for textboxes hover*/
+.form form .form-control:focus{
+    outline: none;
+}
+/*this btn class for login button*/
+.form form .btn{
+    display: block;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 34px;
+    border:none;
+    outline: none;
+    text-transform: uppercase;
+    background:#2F4F4F;
+    cursor: pointer;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: white;
+    border-radius: 8px;
+    transition: transform 0ms ease-in ;
+}
+/* this is for button hover*/
+.form form .btn:hover{
+    background-color:#5f8c8c;
+    opacity: 0.6;
+    transition: 0.3s;
+}
